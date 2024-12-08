@@ -1,33 +1,29 @@
-from lib.Article import Article # type: ignore
+from article import Article # type: ignore
 
 class Author:
     def __init__(self, name):
+        if not isinstance(name, str) or len(name) == 0:
+            raise ValueError("Error: Name must be a non-empty string.")
         self._name = name
-        self._articles = []
-    
+
+    @property
     def name(self):
         return self._name
 
-    def articles(self):
-        return self._articles
-
-    def magazines(self):
-        magazines = []
-        for article in self._articles:
-            magazine = article.magazine()
-            if magazine not in magazines:#if condition is true
-                magazines.append(magazine)
-        return magazines
+    @name.setter
+    def name(self, value):
+        raise ValueError("Error: Author name is immutable once set.")
 
     def add_article(self, magazine, title):
-        article = Article(self, magazine, title)
-        self._articles.append(article)
+        return Article(self, magazine, title)
+
+    def articles(self):
+        return [article for article in Article.all if article.author == self]
+
+    def magazines(self):
+        return list({article.magazine for article in self.articles()})
 
     def topic_areas(self):
-        categories = []
-        for article in self._articles:
-            magazine = article.magazine()
-            category = magazine.category()
-            if category not in categories:
-                categories.append(category)
-        return categories
+        if not self.magazines():
+            return None
+        return list({magazine.category for magazine in self.magazines()})

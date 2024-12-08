@@ -1,23 +1,23 @@
 class Article:
-    all = []  # Class variable to hold all articles
+    all = []
 
     def __init__(self, author, magazine, title):
+        if not isinstance(author, author):
+            raise ValueError("Error: Author must be of type Author.")
+        if not isinstance(magazine, magazine):
+            raise ValueError("Error: Magazine must be of type Magazine.")
+        if not isinstance(title, str) or not (5 <= len(title) <= 50):
+            raise ValueError("Error: Title must be a string between 5 and 50 characters.")
+        
+        self._title = title
         self.author = author
         self.magazine = magazine
-        self.title = title
-        # Append the instance to the class variable 'all'
         Article.all.append(self)
 
-
+    @property
     def title(self):
         return self._title
 
-    @classmethod
-    def all(cls):
-        return cls._all
-
-    def author(self):
-        return self._author
-
-    def magazine(self):
-        return self._magazine
+    @title.setter
+    def title(self, value):
+        raise ValueError("Error: Title is immutable once set.")
